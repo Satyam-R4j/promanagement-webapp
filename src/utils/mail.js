@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer'
 
 const sendEmail = async (options) =>
 {
-    new mailGenerator = new Mailgen({
+    const mailGenerator = new Mailgen({
         theme: "default",
         product: {
             name: "Pro Manager",
@@ -18,7 +18,7 @@ const sendEmail = async (options) =>
 
     const transporter = nodemailer.createTransport({
         host: process.env.MAILTRAP_SMTP_HOST,
-        pass: process.env.MAILTRAP_SMTP_PORT,
+        port: process.env.MAILTRAP_SMTP_PORT,
         auth: {
             user: process.env.MAILTRAP_SMTP_USER,
             pass: process.env.MAILTRAP_SMTP_PASS
@@ -38,13 +38,13 @@ const sendEmail = async (options) =>
         await transporter.sendMail(mail)
     } catch (error)
     {
-        console.log("Email service failed silently. Make sure that you have provided your MAILTRAP credential in the .env file")
+        console.error("Email service failed silently. Make sure that you have provided your MAILTRAP credential in the .env file")
         console.error("Error: ", error)
     }
 
 }
 
-const emailVerificationGenContent = function (username, verificationUrl)
+const emailVerificationGenContent =  (username, verificationUrl) =>
 {
     return {
         body: {

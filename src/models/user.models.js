@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 
-const schema = new Schema({
+const userSchema = new Schema({
 
     avatar: {
         type: {
@@ -91,9 +91,7 @@ userSchema.methods.generateAccessToken = function ()
 userSchema.methods.generateRefreshToken = function ()
 {
     return jwt.sign({
-        _id: this._id,
-        email: this.email,
-        username: this.username
+        _id: this._id
     },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
@@ -109,8 +107,8 @@ userSchema.methods.generateTemporaryToken = function ()
         .update(unHashedToken)
         .digest("hex")
 
-    const tokenExpiry = Date.now() + (20*60*1000)
-    return {unHashedToken,hashedToken,tokenExpiry}
+    const tokenExpiry = Date.now() + (20 * 60 * 1000)
+    return { unHashedToken, hashedToken, tokenExpiry }
 }
 
 export const User = mongoose.model("User", userSchema)
