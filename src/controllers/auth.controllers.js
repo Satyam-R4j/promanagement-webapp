@@ -8,7 +8,6 @@ import {
     sendEmail,
 } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
-import { use } from "react";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
